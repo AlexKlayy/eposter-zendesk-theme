@@ -2432,18 +2432,39 @@ html { scroll-padding-top: 96px; }
 
 .search-page .search-pagination {
   margin-top: 40px;
-  display: flex;
-  justify-content: center;
   font-size: 0.85rem;
+}
+.search-page .search-pagination ul,
+.search-page .search-pagination ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.search-page .search-pagination li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.search-page .search-pagination li::before,
+.search-page .search-pagination li::marker {
+  content: none;
+  display: none;
 }
 .search-page .search-pagination a,
 .search-page .search-pagination span {
+  display: inline-flex;
+  align-items: center;
   padding: 8px 14px;
-  margin: 0 2px;
   border-radius: 8px;
   text-decoration: none;
   color: #6b7280;
   border: 1px solid transparent;
+  font-variant-numeric: tabular-nums;
 }
 .search-page .search-pagination a:hover {
   border-color: var(--rule);
