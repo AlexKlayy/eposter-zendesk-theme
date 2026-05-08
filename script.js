@@ -60,6 +60,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // --- Home page sections accordion ---
+  var sectionHeaders = document.querySelectorAll('.section-card__header');
+  sectionHeaders.forEach(function (header) {
+    header.addEventListener('click', function () {
+      var card = header.closest('.section-card');
+      if (!card) return;
+      var isOpen = card.classList.toggle('is-open');
+      header.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
+  // Auto-open the featured section ("Getting Started") on page load
+  var featured = document.querySelector('.section-card--featured');
+  if (featured) {
+    featured.classList.add('is-open');
+    var featuredHeader = featured.querySelector('.section-card__header');
+    if (featuredHeader) featuredHeader.setAttribute('aria-expanded', 'true');
+  }
+
   // --- Article vote buttons ---
   var voteButtons = document.querySelectorAll('.article-vote-up, .article-vote-down');
   voteButtons.forEach(function (btn) {
