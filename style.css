@@ -2455,6 +2455,17 @@ html { scroll-padding-top: 96px; }
   content: none;
   display: none;
 }
+.search-page .search-pagination .pagination-first,
+.search-page .search-pagination .pagination-last,
+.search-page .search-pagination .first_page,
+.search-page .search-pagination .last_page,
+.search-page .search-pagination li.first,
+.search-page .search-pagination li.last,
+.search-page .search-pagination [data-pagination-skip] { display: none; }
+.search-page .search-pagination .pagination-prev::before,
+.search-page .search-pagination .pagination-next::after,
+.search-page .search-pagination .prev_page::before,
+.search-page .search-pagination .next_page::after { content: ''; }
 .search-page .search-pagination a,
 .search-page .search-pagination span {
   display: inline-flex;

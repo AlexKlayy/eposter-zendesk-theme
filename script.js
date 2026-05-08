@@ -207,6 +207,15 @@ document.addEventListener('DOMContentLoaded', function () {
       summary.textContent = rows.length + (rows.length === 1 ? ' result on this page' : ' results on this page');
       summary.removeAttribute('hidden');
     }
+    // Hide First/Last pagination items regardless of Zendesk's class names
+    var pagItems = searchPage.querySelectorAll('.search-pagination a, .search-pagination li, .search-pagination span');
+    pagItems.forEach(function (el) {
+      var t = (el.textContent || '').trim().toLowerCase();
+      if (t === 'first' || t === 'last' || t === '« first' || t === 'last »' || t === '«' || t === '»') {
+        var li = el.closest('li');
+        (li || el).style.display = 'none';
+      }
+    });
   }
 
   // ============================================================
