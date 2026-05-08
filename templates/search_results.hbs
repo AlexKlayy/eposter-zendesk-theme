@@ -1,11 +1,6 @@
 <main role="main">
   <div class="container">
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumbs">
-        <li><a href="{{help_center.url}}">Home</a></li>
-        <li>Search results</li>
-      </ol>
-    </nav>
+    <nav aria-label="Breadcrumb">{{breadcrumbs}}</nav>
 
     <div class="search-results">
       <h1 class="search-results-heading">
@@ -16,11 +11,8 @@
         {{/if}}
       </h1>
 
-      {{!-- Inline search --}}
       <div class="search-container" role="search" style="margin-bottom: 32px; max-width: 100%;">
-        <form action="{{help_center.url}}/hc/search" method="get">
-          <input type="search" name="query" value="{{query}}" placeholder="Search for articles..." aria-label="Search">
-        </form>
+        {{search submit=false}}
       </div>
 
       {{#if results}}
@@ -28,41 +20,24 @@
           {{#each results}}
             <li class="search-result">
               <h2 class="search-result-title">
-                <a href="{{url}}">{{{title}}}</a>
+                <a href="{{url}}">{{title}}</a>
               </h2>
-              <p class="search-result-description">{{{snippet}}}</p>
+              <p class="search-result-description">{{text}}</p>
               <p class="search-result-meta">
-                {{#if category}}{{category.name}} &rsaquo; {{/if}}
-                {{#if section}}{{section.name}}{{/if}}
+                {{#each path_steps}}
+                  <a href="{{url}}">{{name}}</a>
+                {{/each}}
               </p>
             </li>
           {{/each}}
         </ul>
 
-        {{#if pagination}}
-          <nav aria-label="Pagination">
-            <ol class="pagination">
-              {{#if pagination.previous_page}}
-                <li><a href="{{pagination.previous_page}}">Prev</a></li>
-              {{/if}}
-              {{#each pagination.pages}}
-                {{#if current}}
-                  <li><span class="current">{{page_number}}</span></li>
-                {{else}}
-                  <li><a href="{{url}}">{{page_number}}</a></li>
-                {{/if}}
-              {{/each}}
-              {{#if pagination.next_page}}
-                <li><a href="{{pagination.next_page}}">Next</a></li>
-              {{/if}}
-            </ol>
-          </nav>
-        {{/if}}
+        {{pagination}}
       {{else}}
         <div style="text-align: center; padding: 48px 0;">
           <p style="font-size: 1.125rem; color: var(--text-secondary);">No results found for "{{query}}"</p>
           <p class="text-muted text-small">Try different keywords or browse our categories below.</p>
-          <a href="{{help_center.url}}" class="btn-secondary" style="margin-top: 16px;">Browse all articles</a>
+          {{#link 'help_center' class='btn-secondary'}}Browse all articles{{/link}}
         </div>
       {{/if}}
     </div>

@@ -1,16 +1,8 @@
 <main role="main">
   <div class="container">
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumbs">
-        <li><a href="{{help_center.url}}">Home</a></li>
-        <li><a href="{{article.section.category.url}}">{{article.section.category.name}}</a></li>
-        <li><a href="{{article.section.url}}">{{article.section.name}}</a></li>
-        <li>{{article.title}}</li>
-      </ol>
-    </nav>
+    <nav aria-label="Breadcrumb">{{breadcrumbs}}</nav>
 
     <div class="article-container">
-      {{!-- Sidebar --}}
       <aside class="article-sidebar collapsible-sidebar">
         <h4 class="section-nav-title">In this section</h4>
         {{#each article.section.articles}}
@@ -20,7 +12,6 @@
         {{/each}}
       </aside>
 
-      {{!-- Article body --}}
       <div class="article-main">
         <article class="article-body" itemscope itemtype="http://schema.org/Article">
           <header class="article-header">
@@ -38,15 +29,14 @@
           </header>
 
           <div class="article-content" itemprop="articleBody">
-            {{{article.body}}}
+            {{article.body}}
           </div>
 
-          {{!-- Article attachments --}}
-          {{#if article.attachments}}
+          {{#if attachments}}
             <div class="article-attachments" style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05);">
               <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px;">Attachments</h4>
               <ul style="list-style: none; padding: 0;">
-                {{#each article.attachments}}
+                {{#each attachments}}
                   <li style="margin-bottom: 8px;">
                     <a href="{{url}}" target="_blank" style="font-size: 0.875rem;">
                       {{name}}
@@ -57,12 +47,11 @@
             </div>
           {{/if}}
 
-          {{!-- Vote --}}
           <div class="article-vote" role="form">
             <p class="article-vote-question">Was this article helpful?</p>
             <div style="display: flex; gap: 12px; justify-content: center;">
-              <button class="article-vote-up" data-vote="up">Yes</button>
-              <button class="article-vote-down" data-vote="down">No</button>
+              {{vote 'up' class='article-vote-up' selected_class='active'}}
+              {{vote 'down' class='article-vote-down' selected_class='active'}}
             </div>
           </div>
         </article>

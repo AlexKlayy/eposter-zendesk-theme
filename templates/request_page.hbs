@@ -1,21 +1,14 @@
 <main role="main">
   <div class="container">
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumbs">
-        <li><a href="{{help_center.url}}">Home</a></li>
-        <li><a href="{{help_center.url}}/hc/requests">My requests</a></li>
-        <li>{{request.subject}}</li>
-      </ol>
-    </nav>
+    <nav aria-label="Breadcrumb">{{breadcrumbs}}</nav>
 
     <div style="background: var(--bg-card); border: 0.5px solid var(--card-border); border-radius: var(--radius); padding: 32px; box-shadow: var(--card-shadow);">
       <h1 style="margin-bottom: 8px;">{{request.subject}}</h1>
       <div class="article-meta" style="margin-bottom: 24px;">
-        <span class="request-status request-status--{{request.status}}">{{request.status}}</span>
+        <span class="request-status request-status--{{request.status}}">{{request.status_name}}</span>
         <span class="text-muted text-small">Opened {{date request.created_at}}</span>
       </div>
 
-      {{!-- Comments / conversation thread --}}
       <div class="request-comments">
         {{#each comments}}
           <div style="padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
@@ -24,18 +17,22 @@
               <span class="text-muted text-small">{{date created_at}}</span>
             </div>
             <div style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.7;">
-              {{{body}}}
+              {{body}}
             </div>
           </div>
         {{/each}}
       </div>
 
-      {{!-- Reply form --}}
-      {{#if request.can_be_solved_by_me}}
-        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05);">
-          {{request_comment_form}}
-        </div>
-      {{/if}}
+      {{pagination}}
+
+      <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05);">
+        {{#form 'comment' class='comment-form'}}
+          {{wysiwyg 'body'}}
+          <div style="margin-top: 12px;">
+            {{input type='submit' class='btn-primary'}}
+          </div>
+        {{/form}}
+      </div>
     </div>
   </div>
 </main>

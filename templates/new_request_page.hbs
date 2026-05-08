@@ -1,17 +1,24 @@
 <main role="main">
   <div class="container">
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumbs">
-        <li><a href="{{help_center.url}}">Home</a></li>
-        <li>Submit a request</li>
-      </ol>
-    </nav>
+    <nav aria-label="Breadcrumb">{{breadcrumbs}}</nav>
 
     <h1>Submit a request</h1>
     <p class="text-muted" style="margin-bottom: 32px;">Can't find what you're looking for? Send us a message and we'll get back to you.</p>
 
     <div class="request-form" style="background: var(--bg-card); border: 0.5px solid var(--card-border); border-radius: var(--radius); padding: 32px; box-shadow: var(--card-shadow);">
-      {{request_form}}
+      {{#form 'request' class='request-form'}}
+        <div class="form-field">
+          {{label 'subject'}}
+          {{input 'subject'}}
+        </div>
+        <div class="form-field">
+          {{label 'description'}}
+          {{wysiwyg 'description'}}
+        </div>
+        <div class="form-field">
+          {{input type='submit' class='btn-primary'}}
+        </div>
+      {{/form}}
     </div>
   </div>
 </main>

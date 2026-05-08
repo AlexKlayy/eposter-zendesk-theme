@@ -5,10 +5,11 @@
       <ul class="article-list" style="background: var(--bg-card); border: 0.5px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--card-shadow);">
         {{#each subscriptions}}
           <li class="article-list-item">
-            <a href="{{content.url}}" class="article-list-link">{{content.title}}</a>
+            <a href="{{url}}" class="article-list-link">{{title}}</a>
           </li>
         {{/each}}
       </ul>
+      {{pagination}}
     {{else}}
       <p class="text-muted">You aren't following anything yet.</p>
     {{/if}}

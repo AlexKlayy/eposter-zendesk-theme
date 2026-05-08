@@ -1,11 +1,11 @@
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="{{help_center.url}}" class="footer-logo-link">{{help_center.name}}</a>
+      {{#link 'help_center' class='footer-logo-link'}}{{help_center.name}}{{/link}}
     </div>
     <div class="footer-links">
-      {{#if current_user}}
-        <a href="{{current_user.url}}">My activities</a>
+      {{#if signed_in}}
+        {{link 'requests'}}
       {{/if}}
     </div>
     <div class="powered-by">
