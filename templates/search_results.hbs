@@ -1,45 +1,61 @@
-<main role="main">
-  <div class="container">
-    <nav aria-label="Breadcrumb">{{breadcrumbs}}</nav>
+<main role="main" class="search-page">
+  <div class="search-page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">{{breadcrumbs}}</nav>
 
-    <div class="search-results">
-      <h1 class="search-results-heading">
+    <header class="search-head">
+      <p class="search-eyebrow">Search</p>
+      <h1 class="search-title">
         {{#if query}}
-          Results for "{{query}}"
+          Results for <em>&ldquo;{{query}}&rdquo;</em>
         {{else}}
-          Search
+          Search the help center
         {{/if}}
       </h1>
+      <p class="search-summary" data-search-summary hidden></p>
+    </header>
 
-      <div class="search-container" role="search" style="margin-bottom: 32px; max-width: 100%;">
-        {{search submit=false}}
-      </div>
+    <form class="search-shell" method="get" action="search" aria-label="Search the help center">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+      </svg>
+      <input type="search" name="query" value="{{query}}" placeholder="Search articles, posters, states…" autocomplete="off" />
+    </form>
 
-      {{#if results}}
-        <ul class="search-results-list">
-          {{#each results}}
-            <li class="search-result">
-              <h2 class="search-result-title">
-                <a href="{{url}}">{{title}}</a>
-              </h2>
-              <p class="search-result-description">{{text}}</p>
-              <p class="search-result-meta">
-                {{#each path_steps}}
-                  <a href="{{url}}">{{name}}</a>
-                {{/each}}
-              </p>
-            </li>
-          {{/each}}
-        </ul>
-
-        {{pagination}}
-      {{else}}
-        <div style="text-align: center; padding: 48px 0;">
-          <p style="font-size: 1.125rem; color: var(--text-secondary);">No results found for "{{query}}"</p>
-          <p class="text-muted text-small">Try different keywords or browse our categories below.</p>
-          {{#link 'help_center' class='btn-secondary'}}Browse all articles{{/link}}
-        </div>
+    {{#if results}}
+      <ol class="search-list" data-search-list>
+        {{#each results}}
+          <li class="search-row">
+            <a class="search-row-link" href="{{url}}">
+              <span class="search-row-num"></span>
+              <span class="search-row-body">
+                <span class="search-row-path">
+                  {{#each path_steps}}
+                    <span>{{name}}</span>
+                  {{/each}}
+                </span>
+                <span class="search-row-title">{{title}}</span>
+                <span class="search-row-text">{{text}}</span>
+              </span>
+              <svg class="search-row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+          </li>
+        {{/each}}
+      </ol>
+      <div class="search-pagination">{{pagination}}</div>
+    {{else}}
+      {{#if query}}
+        <section class="search-empty">
+          <p class="search-empty-eyebrow">Nothing matched</p>
+          <h2 class="search-empty-title">We couldn&rsquo;t find <em>&ldquo;{{query}}&rdquo;</em></h2>
+          <p class="search-empty-help">Try different keywords, or browse the handbook on the home page.</p>
+          <div class="search-empty-actions">
+            {{#link 'help_center' class='search-empty-cta'}}Back to help center{{/link}}
+            <a class="search-empty-email" href="mailto:help@edoceposter.com">Email support</a>
+          </div>
+        </section>
       {{/if}}
-    </div>
+    {{/if}}
   </div>
 </main>

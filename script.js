@@ -192,6 +192,24 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ============================================================
+  // SEARCH RESULTS PAGE
+  // ============================================================
+  var searchPage = document.querySelector('.search-page');
+  if (searchPage) {
+    var rows = searchPage.querySelectorAll('.search-row');
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    rows.forEach(function (row, i) {
+      var num = row.querySelector('.search-row-num');
+      if (num) num.textContent = pad(i + 1);
+    });
+    var summary = searchPage.querySelector('[data-search-summary]');
+    if (summary && rows.length) {
+      summary.textContent = rows.length + (rows.length === 1 ? ' result on this page' : ' results on this page');
+      summary.removeAttribute('hidden');
+    }
+  }
+
+  // ============================================================
   // HOME PAGE — chapter accordion
   // ============================================================
 
