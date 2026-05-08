@@ -1,44 +1,77 @@
-<div class="hero">
-  {{#if settings.show_hero}}
-    <h1 class="hero__title">{{settings.hero_title}}</h1>
-    <p class="hero__subtitle">Search our knowledge base or browse categories below</p>
-  {{/if}}
-
-  <div class="search-container" role="search">
-    {{search submit=false}}
-  </div>
-</div>
-
 <main role="main" class="home-page">
-  <div class="container">
-    {{#if categories}}
-      <ul class="sections-accordion" id="sections-accordion">
+
+  <section class="hero">
+    <p class="eyebrow">Help &amp; Documentation</p>
+    <h1 class="hero-title">How can <em>we</em> help<span class="stop">?</span></h1>
+    <p class="hero-sub">A practical handbook for setting up your account, managing labor-law posters, and keeping your workplace compliant.</p>
+
+    <form class="search-shell" method="get" action="search" aria-label="Search the help center">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+      </svg>
+      <input type="search" name="query" placeholder="Search articles, posters, states…" autocomplete="off" />
+      <span class="search-kbd" aria-hidden="true"><kbd>⌘</kbd><kbd>K</kbd></span>
+    </form>
+  </section>
+
+  {{#if categories}}
+    <section class="handbook">
+      <div class="handbook-head">
+        <h2>Browse the <em>handbook</em></h2>
+      </div>
+
+      <ul class="chapter-list">
         {{#each categories}}
           {{#each sections}}
-            <li class="section-card {{#is name 'Getting Started'}}section-card--featured{{/is}}" data-section-id="{{id}}">
-              <button type="button" class="section-card__header" aria-expanded="false" aria-controls="section-body-{{id}}">
-                <div class="section-card__heading">
-                  <h2 class="section-card__title">{{name}}</h2>
+            <li class="chapter {{#is name 'Getting Started'}}chapter--featured{{/is}}" data-section-id="{{id}}" data-section-name="{{name}}">
+              <button type="button" class="chapter-row" aria-expanded="false" aria-controls="panel-{{id}}">
+                <span class="chapter-num"></span>
+                <div class="chapter-body">
+                  <p class="chapter-kicker"></p>
+                  <h3 class="chapter-title">{{name}}</h3>
                   {{#if description}}
-                    <p class="section-card__description">{{description}}</p>
+                    <p class="chapter-desc">{{description}}</p>
                   {{/if}}
+                  <div class="chapter-tags">
+                    <span class="chapter-count">Articles</span>
+                  </div>
                 </div>
-                <svg class="section-card__chevron" width="22" height="22" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <span class="chapter-arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
               </button>
-              <div class="section-card__body" id="section-body-{{id}}">
-                <ul class="section-articles" data-section-articles="{{id}}" data-loaded="false">
-                  <li class="section-articles__loading">Loading articles…</li>
+              <div class="chapter-panel" id="panel-{{id}}">
+                <ul class="chapter-articles" data-section-articles="{{id}}" data-loaded="false">
+                  <li class="chapter-articles-loading">Loading articles…</li>
                 </ul>
-                <a href="{{url}}" class="section-card__view-all">View all articles in {{name}} &rarr;</a>
+                <a class="chapter-view-all" href="{{url}}">View all articles &rarr;</a>
               </div>
             </li>
           {{/each}}
         {{/each}}
       </ul>
-    {{else}}
-      <p class="text-muted" style="text-align:center; padding: 48px 0;">No content yet. Check back soon.</p>
-    {{/if}}
-  </div>
+    </section>
+  {{else}}
+    <section class="handbook">
+      <p class="empty-state">No content yet. Check back soon.</p>
+    </section>
+  {{/if}}
+
+  <section class="glance">
+    <div class="glance-inner">
+      <div class="glance-cell">
+        <h4>Still stuck?</h4>
+        <p>Email <a href="mailto:support@eposter.app">support@eposter.app</a> and we'll help you out.</p>
+      </div>
+      <div class="glance-cell">
+        <h4>System status</h4>
+        <p>All systems <a href="https://status.eposter.app" target="_blank" rel="noopener">operational</a>.</p>
+      </div>
+      <div class="glance-cell">
+        <h4>Compliance updates</h4>
+        <p>State-by-state changes are pushed to your posters automatically.</p>
+      </div>
+    </div>
+  </section>
+
 </main>

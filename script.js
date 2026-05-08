@@ -1,11 +1,5 @@
 /**
  * ePoster Help Center Theme — JavaScript
- *
- * Handles:
- * - Mobile nav toggle
- * - Smooth scroll for anchor links
- * - Active sidebar state on article pages
- * - Collapsible sidebar on mobile
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -47,93 +41,134 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // --- Collapsible sidebar on mobile ---
-  var sidebar = document.querySelector('.collapsible-sidebar');
-  var sidebarTitle = sidebar ? sidebar.querySelector('.section-nav-title, h4') : null;
-
-  if (sidebar && sidebarTitle && window.innerWidth <= 1024) {
-    sidebar.classList.add('is-collapsed');
-
-    sidebarTitle.style.cursor = 'pointer';
-    sidebarTitle.addEventListener('click', function () {
-      sidebar.classList.toggle('is-collapsed');
+  // --- Article vote buttons ---
+  var voteButtons = document.querySelectorAll('.article-vote-up, .article-vote-down');
+  voteButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      voteButtons.forEach(function (b) { b.style.opacity = '0.5'; });
+      this.style.opacity = '1';
     });
-  }
+  });
 
-  // --- Home page sections accordion ---
-  function loadSectionArticles(card) {
-    var list = card.querySelector('.section-articles');
+  // ============================================================
+  // HOME PAGE — chapter accordion
+  // ============================================================
+
+  var chapters = document.querySelectorAll('.chapter');
+  if (!chapters.length) return;
+
+  // Editorial kicker labels for known sections (graceful fallback for new sections)
+  var KICKERS = {
+    'Getting Started': 'Setup',
+    'Managing Your Posters': 'Posters',
+    'Breakroom Screens': 'Display',
+    'Email Signing': 'Sign-off',
+    'Widget': 'Embed'
+  };
+
+  var totalChapters = chapters.length;
+  var totalStr = String(totalChapters).padStart(2, '0');
+
+  chapters.forEach(function (chapter, i) {
+    // Numbering: 01 / 05
+    var numEl = chapter.querySelector('.chapter-num');
+    if (numEl) numEl.textContent = String(i + 1).padStart(2, '0') + ' / ' + totalStr;
+
+    // Kicker label
+    var name = chapter.getAttribute('data-section-name') || '';
+    var kicker = KICKERS[name];
+    var kickerEl = chapter.querySelector('.chapter-kicker');
+    if (kickerEl && kicker) kickerEl.textContent = kicker;
+    if (kickerEl && !kicker) kickerEl.style.display = 'none';
+  });
+
+  // --- Lazy-load section articles via Help Center API ---
+  function loadSectionArticles(chapter) {
+    var list = chapter.querySelector('.chapter-articles');
     if (!list || list.getAttribute('data-loaded') === 'true') return;
     var sectionId = list.getAttribute('data-section-articles');
     if (!sectionId) return;
     list.setAttribute('data-loaded', 'true');
 
     var locale = (document.documentElement.lang || 'en-us').toLowerCase();
-    var url = '/api/v2/help_center/' + locale + '/sections/' + sectionId + '/articles.json?per_page=30&sort_by=position';
+    var url = '/api/v2/help_center/' + locale + '/sections/' + sectionId + '/articles.json?per_page=8&sort_by=position';
 
     fetch(url, { headers: { 'Accept': 'application/json' } })
       .then(function (res) { return res.json(); })
       .then(function (data) {
         var articles = (data && data.articles) || [];
+        var count = (data && data.count) || articles.length;
+
+        // Update tag count
+        var countEl = chapter.querySelector('.chapter-count');
+        if (countEl) countEl.textContent = count + (count === 1 ? ' article' : ' articles');
+
+        // Update view-all label
+        var viewAll = chapter.querySelector('.chapter-view-all');
+        if (viewAll) viewAll.innerHTML = 'View all ' + count + ' articles &rarr;';
+
         if (!articles.length) {
-          list.innerHTML = '<li class="section-articles__empty">No articles in this section yet.</li>';
+          list.innerHTML = '<li class="chapter-articles-empty">No articles in this section yet.</li>';
           return;
         }
-        list.innerHTML = articles.map(function (a) {
-          return '<li><a href="' + a.html_url + '" class="section-article-link">' +
+
+        list.innerHTML = articles.map(function () {
+          return '<li><a class="chapter-article-link" href="">' +
             '<span></span>' +
-            '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-            '<path d="M5 13l5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-            '</svg></a></li>';
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+            '<path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+            '</a></li>';
         }).join('');
-        // Set titles via textContent to avoid HTML injection
-        var links = list.querySelectorAll('.section-article-link span');
-        links.forEach(function (span, i) { span.textContent = articles[i].title; });
+
+        var links = list.querySelectorAll('.chapter-article-link');
+        links.forEach(function (link, i) {
+          link.setAttribute('href', articles[i].html_url);
+          link.querySelector('span').textContent = articles[i].title;
+        });
       })
       .catch(function () {
-        list.innerHTML = '<li class="section-articles__empty">Unable to load articles.</li>';
+        list.innerHTML = '<li class="chapter-articles-empty">Unable to load articles.</li>';
       });
   }
 
-  var sectionHeaders = document.querySelectorAll('.section-card__header');
-  sectionHeaders.forEach(function (header) {
-    header.addEventListener('click', function () {
-      var card = header.closest('.section-card');
-      if (!card) return;
-      var isOpen = card.classList.toggle('is-open');
-      header.setAttribute('aria-expanded', String(isOpen));
-      if (isOpen) loadSectionArticles(card);
+  // Pre-fetch counts for all chapters so the tag row shows real numbers
+  chapters.forEach(function (chapter) {
+    var sectionId = chapter.querySelector('.chapter-articles');
+    if (!sectionId) return;
+    var id = sectionId.getAttribute('data-section-articles');
+    if (!id) return;
+    var locale = (document.documentElement.lang || 'en-us').toLowerCase();
+    fetch('/api/v2/help_center/' + locale + '/sections/' + id + '/articles.json?per_page=1', {
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var count = (data && data.count) || 0;
+        var countEl = chapter.querySelector('.chapter-count');
+        if (countEl) countEl.textContent = count + (count === 1 ? ' article' : ' articles');
+      })
+      .catch(function () { /* ignore */ });
+  });
+
+  // Toggle handlers
+  var rows = document.querySelectorAll('.chapter-row');
+  rows.forEach(function (row) {
+    row.addEventListener('click', function () {
+      var chapter = row.closest('.chapter');
+      if (!chapter) return;
+      var open = chapter.classList.toggle('is-open');
+      row.setAttribute('aria-expanded', String(open));
+      if (open) loadSectionArticles(chapter);
     });
   });
 
-  // Auto-open the featured section ("Getting Started") on page load
-  var featured = document.querySelector('.section-card--featured');
+  // Auto-open the featured chapter
+  var featured = document.querySelector('.chapter--featured');
   if (featured) {
     featured.classList.add('is-open');
-    var featuredHeader = featured.querySelector('.section-card__header');
-    if (featuredHeader) featuredHeader.setAttribute('aria-expanded', 'true');
+    var featuredRow = featured.querySelector('.chapter-row');
+    if (featuredRow) featuredRow.setAttribute('aria-expanded', 'true');
     loadSectionArticles(featured);
   }
-
-  // --- Article vote buttons ---
-  var voteButtons = document.querySelectorAll('.article-vote-up, .article-vote-down');
-  voteButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var voteType = this.getAttribute('data-vote');
-      var articleId = document.querySelector('[data-article-id]');
-
-      if (articleId) {
-        // Zendesk API handles votes via their built-in system
-        // This just provides visual feedback
-        voteButtons.forEach(function (b) {
-          b.style.opacity = '0.5';
-        });
-        this.style.opacity = '1';
-        this.style.borderColor = voteType === 'up'
-          ? 'var(--eposter-500)'
-          : '#ef4444';
-      }
-    });
-  });
 
 });
