@@ -28,22 +28,10 @@
                 </svg>
               </button>
               <div class="section-card__body" id="section-body-{{id}}">
-                {{#if articles}}
-                  <ul class="section-articles">
-                    {{#each articles}}
-                      <li>
-                        <a href="{{url}}" class="section-article-link">
-                          <span>{{title}}</span>
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M5 13l5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                        </a>
-                      </li>
-                    {{/each}}
-                  </ul>
-                {{else}}
-                  <p class="text-muted" style="padding: 16px 0;">No articles in this section yet.</p>
-                {{/if}}
+                <ul class="section-articles" data-section-articles="{{id}}" data-loaded="false">
+                  <li class="section-articles__loading">Loading articles…</li>
+                </ul>
+                <a href="{{url}}" class="section-card__view-all">View all articles in {{name}} &rarr;</a>
               </div>
             </li>
           {{/each}}

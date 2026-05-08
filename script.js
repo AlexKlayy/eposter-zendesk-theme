@@ -61,6 +61,40 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // --- Home page sections accordion ---
+  function loadSectionArticles(card) {
+    var list = card.querySelector('.section-articles');
+    if (!list || list.getAttribute('data-loaded') === 'true') return;
+    var sectionId = list.getAttribute('data-section-articles');
+    if (!sectionId) return;
+    list.setAttribute('data-loaded', 'true');
+
+    var locale = (document.documentElement.lang || 'en-us').toLowerCase();
+    var url = '/api/v2/help_center/' + locale + '/sections/' + sectionId + '/articles.json?per_page=30&sort_by=position';
+
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var articles = (data && data.articles) || [];
+        if (!articles.length) {
+          list.innerHTML = '<li class="section-articles__empty">No articles in this section yet.</li>';
+          return;
+        }
+        list.innerHTML = articles.map(function (a) {
+          return '<li><a href="' + a.html_url + '" class="section-article-link">' +
+            '<span></span>' +
+            '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+            '<path d="M5 13l5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+            '</svg></a></li>';
+        }).join('');
+        // Set titles via textContent to avoid HTML injection
+        var links = list.querySelectorAll('.section-article-link span');
+        links.forEach(function (span, i) { span.textContent = articles[i].title; });
+      })
+      .catch(function () {
+        list.innerHTML = '<li class="section-articles__empty">Unable to load articles.</li>';
+      });
+  }
+
   var sectionHeaders = document.querySelectorAll('.section-card__header');
   sectionHeaders.forEach(function (header) {
     header.addEventListener('click', function () {
@@ -68,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!card) return;
       var isOpen = card.classList.toggle('is-open');
       header.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) loadSectionArticles(card);
     });
   });
 
@@ -77,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     featured.classList.add('is-open');
     var featuredHeader = featured.querySelector('.section-card__header');
     if (featuredHeader) featuredHeader.setAttribute('aria-expanded', 'true');
+    loadSectionArticles(featured);
   }
 
   // --- Article vote buttons ---

@@ -561,6 +561,27 @@ nav[aria-label="Breadcrumb"] a:hover {
   transform: translateX(2px);
 }
 
+.section-articles__loading,
+.section-articles__empty {
+  padding: 12px 4px;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  list-style: none;
+}
+
+.section-card__view-all {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: var(--eposter-500);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.section-card__view-all:hover {
+  text-decoration: underline;
+}
+
 /* Featured (Getting Started) treatment */
 .section-card--featured {
   border-left: 4px solid var(--eposter-500);
