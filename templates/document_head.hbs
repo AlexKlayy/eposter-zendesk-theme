@@ -1,0 +1,19 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{page_title}} - ePoster Help Center">
+
+<title>{{page_title}} - ePoster Help Center</title>
+
+<link rel="stylesheet" href="{{asset 'style.css'}}">
+
+{{#if settings.brand_color}}
+<style>
+  :root {
+    --eposter-500: {{settings.brand_color}};
+    --eposter-400: {{settings.brand_color_hover}};
+    --nav-dark: {{settings.nav_bg_color}};
+    --text-primary: {{settings.text_color}};
+    --bg-page: {{settings.background_color}};
+  }
+</style>
+{{/if}}

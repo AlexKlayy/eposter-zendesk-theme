@@ -1,0 +1,15 @@
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="{{help_center.url}}" class="footer-logo-link">{{help_center.name}}</a>
+    </div>
+    <div class="footer-links">
+      {{#if current_user}}
+        <a href="{{current_user.url}}">My activities</a>
+      {{/if}}
+    </div>
+    <div class="powered-by">
+      &copy; {{date 'YYYY'}} Edoc Service. All rights reserved.
+    </div>
+  </div>
+</footer>

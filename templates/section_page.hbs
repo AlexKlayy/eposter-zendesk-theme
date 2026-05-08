@@ -1,0 +1,52 @@
+<main role="main">
+  <div class="container">
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumbs">
+        <li><a href="{{help_center.url}}">Home</a></li>
+        <li><a href="{{section.category.url}}">{{section.category.name}}</a></li>
+        <li>{{section.name}}</li>
+      </ol>
+    </nav>
+
+    <h1>{{section.name}}</h1>
+    {{#if section.description}}
+      <p class="text-muted">{{section.description}}</p>
+    {{/if}}
+
+    {{#if articles}}
+      <div class="article-list-wrapper" style="background: var(--bg-card); border: 0.5px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--card-shadow); margin-top: 24px;">
+        <ul class="article-list">
+          {{#each articles}}
+            <li class="article-list-item">
+              <a href="{{url}}" class="article-list-link">
+                {{title}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{else}}
+      <p class="text-muted">No articles in this section yet.</p>
+    {{/if}}
+
+    {{#if pagination}}
+      <nav aria-label="Pagination">
+        <ol class="pagination">
+          {{#if pagination.previous_page}}
+            <li><a href="{{pagination.previous_page}}">Prev</a></li>
+          {{/if}}
+          {{#each pagination.pages}}
+            {{#if current}}
+              <li><span class="current">{{page_number}}</span></li>
+            {{else}}
+              <li><a href="{{url}}">{{page_number}}</a></li>
+            {{/if}}
+          {{/each}}
+          {{#if pagination.next_page}}
+            <li><a href="{{pagination.next_page}}">Next</a></li>
+          {{/if}}
+        </ol>
+      </nav>
+    {{/if}}
+  </div>
+</main>

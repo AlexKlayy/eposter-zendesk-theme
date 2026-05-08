@@ -1,0 +1,37 @@
+<div class="hero">
+  {{#if settings.show_hero}}
+    <h1 class="hero__title">{{settings.hero_title}}</h1>
+    <p class="hero__subtitle">Search our knowledge base or browse categories below</p>
+  {{/if}}
+
+  <div class="search-container" role="search">
+    <form action="{{help_center.url}}/hc/search" method="get">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="search" name="query" placeholder="Search for articles..." aria-label="Search">
+    </form>
+  </div>
+</div>
+
+<main role="main">
+  <div class="container">
+    {{#if categories}}
+      <ul class="categories-list blocks-list">
+        {{#each categories}}
+          <li class="blocks-item category-item">
+            <a href="{{url}}">
+              <h2 class="blocks-item-title category-title">{{name}}</h2>
+              {{#if description}}
+                <p class="blocks-item-description category-description">{{description}}</p>
+              {{/if}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p class="text-muted" style="text-align:center; padding: 48px 0;">No categories yet. Check back soon.</p>
+    {{/if}}
+  </div>
+</main>

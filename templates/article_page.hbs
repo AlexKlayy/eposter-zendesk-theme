@@ -1,0 +1,72 @@
+<main role="main">
+  <div class="container">
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumbs">
+        <li><a href="{{help_center.url}}">Home</a></li>
+        <li><a href="{{article.section.category.url}}">{{article.section.category.name}}</a></li>
+        <li><a href="{{article.section.url}}">{{article.section.name}}</a></li>
+        <li>{{article.title}}</li>
+      </ol>
+    </nav>
+
+    <div class="article-container">
+      {{!-- Sidebar --}}
+      <aside class="article-sidebar collapsible-sidebar">
+        <h4 class="section-nav-title">In this section</h4>
+        {{#each article.section.articles}}
+          <a href="{{url}}" class="sidenav-link {{#is id ../article.id}}active{{/is}}">
+            {{title}}
+          </a>
+        {{/each}}
+      </aside>
+
+      {{!-- Article body --}}
+      <div class="article-main">
+        <article class="article-body" itemscope itemtype="http://schema.org/Article">
+          <header class="article-header">
+            <h1 itemprop="name">{{article.title}}</h1>
+            <div class="article-meta">
+              {{#if article.author}}
+                <span class="article-author" itemprop="author">{{article.author.name}}</span>
+              {{/if}}
+              <span class="article-date">
+                <time datetime="{{article.created_at}}" itemprop="datePublished">
+                  {{date article.created_at}}
+                </time>
+              </span>
+            </div>
+          </header>
+
+          <div class="article-content" itemprop="articleBody">
+            {{{article.body}}}
+          </div>
+
+          {{!-- Article attachments --}}
+          {{#if article.attachments}}
+            <div class="article-attachments" style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05);">
+              <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px;">Attachments</h4>
+              <ul style="list-style: none; padding: 0;">
+                {{#each article.attachments}}
+                  <li style="margin-bottom: 8px;">
+                    <a href="{{url}}" target="_blank" style="font-size: 0.875rem;">
+                      {{name}}
+                    </a>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+
+          {{!-- Vote --}}
+          <div class="article-vote" role="form">
+            <p class="article-vote-question">Was this article helpful?</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+              <button class="article-vote-up" data-vote="up">Yes</button>
+              <button class="article-vote-down" data-vote="down">No</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</main>

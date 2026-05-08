@@ -1,0 +1,29 @@
+<header class="header" role="banner">
+  <div class="header-inner">
+    <div class="logo">
+      {{#if logo}}
+        <a href="{{help_center.url}}" class="logo-link">
+          <img src="{{logo}}" alt="{{help_center.name}}">
+        </a>
+      {{else}}
+        <a href="{{help_center.url}}" class="logo-text">{{help_center.name}}</a>
+      {{/if}}
+    </div>
+
+    <nav class="header-nav">
+      {{#each help_center.locales}}
+        {{#unless @first}}{{/unless}}
+      {{/each}}
+
+      {{#if current_user}}
+        <a href="{{current_user.url}}" class="nav-link user-info">
+          {{current_user.name}}
+        </a>
+        <a href="/access/logout" class="nav-link">Sign out</a>
+      {{else}}
+        <a href="{{help_center.url}}/hc/requests/new" class="nav-link submit-a-request">Submit a request</a>
+        <a href="{{help_center.signin_url}}" class="sign-in">Sign in</a>
+      {{/if}}
+    </nav>
+  </div>
+</header>

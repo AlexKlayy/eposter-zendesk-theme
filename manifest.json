@@ -1,0 +1,68 @@
+{
+  "name": "ePoster Help Center",
+  "author": "Edoc Service",
+  "version": "1.0.0",
+  "api_version": 4,
+  "default_locale": "en-us",
+  "settings": [
+    {
+      "label": "colors_group_label",
+      "variables": [
+        {
+          "identifier": "brand_color",
+          "type": "color",
+          "description": "Primary brand color used for buttons and accents",
+          "label": "Brand color",
+          "value": "#F19D11"
+        },
+        {
+          "identifier": "brand_color_hover",
+          "type": "color",
+          "description": "Hover state for primary brand color",
+          "label": "Brand color hover",
+          "value": "#f5aa2a"
+        },
+        {
+          "identifier": "nav_bg_color",
+          "type": "color",
+          "description": "Header and navigation background color",
+          "label": "Navigation background",
+          "value": "#1a1f2e"
+        },
+        {
+          "identifier": "text_color",
+          "type": "color",
+          "description": "Primary text color",
+          "label": "Text color",
+          "value": "#1f2937"
+        },
+        {
+          "identifier": "background_color",
+          "type": "color",
+          "description": "Page background color",
+          "label": "Background color",
+          "value": "#f3f4f6"
+        }
+      ]
+    },
+    {
+      "label": "homepage_group_label",
+      "variables": [
+        {
+          "identifier": "show_hero",
+          "type": "checkbox",
+          "description": "Show the hero banner on the home page",
+          "label": "Show hero banner",
+          "value": true
+        },
+        {
+          "identifier": "hero_title",
+          "type": "text",
+          "description": "Hero banner title",
+          "label": "Hero title",
+          "value": "How can we help?"
+        }
+      ]
+    }
+  ]
+}
