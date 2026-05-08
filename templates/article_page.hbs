@@ -5,7 +5,7 @@
     <div class="article-container">
       <aside class="article-sidebar collapsible-sidebar">
         <h4 class="section-nav-title">In this section</h4>
-        {{#each article.section.articles}}
+        {{#each section.articles}}
           <a href="{{url}}" class="sidenav-link {{#is id ../article.id}}active{{/is}}">
             {{title}}
           </a>
@@ -47,13 +47,15 @@
             </div>
           {{/if}}
 
-          <div class="article-vote" role="form">
-            <p class="article-vote-question">Was this article helpful?</p>
-            <div style="display: flex; gap: 12px; justify-content: center;">
-              {{vote 'up' class='article-vote-up' selected_class='active'}}
-              {{vote 'down' class='article-vote-down' selected_class='active'}}
+          {{#with article}}
+            <div class="article-vote" role="form">
+              <p class="article-vote-question">Was this article helpful?</p>
+              <div style="display: flex; gap: 12px; justify-content: center;">
+                {{vote 'up' class='article-vote-up' selected_class='active'}}
+                {{vote 'down' class='article-vote-down' selected_class='active'}}
+              </div>
             </div>
-          </div>
+          {{/with}}
         </article>
       </div>
     </div>

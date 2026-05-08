@@ -6,6 +6,23 @@
   "default_locale": "en-us",
   "settings": [
     {
+      "label": "branding_group_label",
+      "variables": [
+        {
+          "identifier": "logo",
+          "type": "file",
+          "description": "Header logo image",
+          "label": "Logo"
+        },
+        {
+          "identifier": "favicon",
+          "type": "file",
+          "description": "Browser tab favicon",
+          "label": "Favicon"
+        }
+      ]
+    },
+    {
       "label": "colors_group_label",
       "variables": [
         {
