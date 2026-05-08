@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Welcome to ePoster — what to expect · ePoster Help Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:        #111827;
+    --ink-soft:   #374151;
+    --ink-muted:  #6B7280;
+    --ink-faint:  #9CA3AF;
+
+    --rule:        rgba(17, 24, 39, 0.10);
+    --rule-soft:   rgba(17, 24, 39, 0.06);
+    --rule-faint:  rgba(17, 24, 39, 0.03);
+
+    --bg:          #FAFAF7;
+    --bg-tint:     #F4F2EC;
+    --paper:       #FFFFFF;
+
+    --navy:        #1A1F2E;
+    --navy-up:     #232838;
+
+    --orange:      #F19D11;
+    --orange-soft: #F5AA2A;
+    --orange-deep: #D6840A;
+    --orange-wash: rgba(241, 157, 17, 0.08);
+
+    --font:        'Poppins', system-ui, sans-serif;
+    --t-fast:      0.2s ease;
+    --t-mid:       0.35s cubic-bezier(.2,.7,.2,1);
+
+    --read-width:  68ch;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image:
+      radial-gradient(1100px 600px at 88% -10%, rgba(241,157,17,0.04), transparent 55%);
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+  }
+
+  ::selection { background: var(--orange); color: var(--navy); }
+
+  /* ---------- HEADER ---------- */
+  .site-header {
+    background: var(--navy);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .site-header::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--orange) 40%, var(--orange) 60%, transparent);
+  }
+  .reading-progress {
+    height: 2px;
+    background: rgba(241,157,17,0.18);
+    position: sticky;
+    top: 65px;
+    z-index: 49;
+  }
+  .reading-progress > i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--orange);
+    transition: width 0.1s linear;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand img { height: 30px; width: auto; display: block; }
+
+  /* ---------- ARTICLE LAYOUT ---------- */
+  .article-shell {
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 56px 32px 96px;
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) 260px;
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* ---------- LEFT RAIL ---------- */
+  .left-rail {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    font-size: 13px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    transition: color var(--t-fast), gap var(--t-fast);
+  }
+  .back-link:hover { color: var(--orange-deep); gap: 12px; }
+
+  .rail-section {
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+  }
+  .rail-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    margin: 0 0 14px;
+  }
+  .rail-section ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .rail-section li {
+    margin: 0;
+  }
+  .rail-link {
+    display: block;
+    padding: 7px 12px;
+    margin: 0 -12px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-radius: 6px;
+    line-height: 1.4;
+    transition: background var(--t-fast), color var(--t-fast);
+  }
+  .rail-link:hover { background: var(--bg-tint); color: var(--ink); }
+  .rail-link.is-active {
+    background: var(--orange-wash);
+    color: var(--orange-deep);
+    font-weight: 500;
+  }
+
+  /* ---------- ARTICLE BODY ---------- */
+  .article {
+    max-width: var(--read-width);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .breadcrumb {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 0 0 16px;
+  }
+  .breadcrumb a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color var(--t-fast);
+  }
+  .breadcrumb a:hover { color: var(--orange-deep); }
+  .breadcrumb .sep {
+    margin: 0 10px;
+    color: var(--ink-faint);
+  }
+
+  .article-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 0 0 18px;
+  }
+  .article-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--orange);
+  }
+  .article-eyebrow b {
+    color: var(--orange-deep);
+    font-weight: 500;
+  }
+
+  .article-title {
+    font-weight: 200;
+    font-size: clamp(36px, 4.6vw, 56px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0 0 24px;
+    max-width: 18ch;
+  }
+  .article-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--orange-deep);
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin: 0 0 40px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .article-meta dl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0 18px;
+  }
+  .article-meta dl + dl { border-left: 1px solid var(--rule); }
+  .article-meta dl:first-child { padding-left: 0; }
+  .article-meta dt {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+    color: var(--ink-faint);
+  }
+  .article-meta dd {
+    margin: 0;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .article-meta dd b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Reading copy */
+  .article-body {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+  .article-body > p { margin: 0 0 1.4em; }
+
+  /* Drop cap on first paragraph */
+  .article-body > p.lede::first-letter {
+    font-weight: 200;
+    font-size: 5.6em;
+    float: left;
+    line-height: 0.85;
+    margin: 0.06em 0.12em -0.12em -0.04em;
+    color: var(--orange-deep);
+    font-feature-settings: "ss01";
+  }
+  .article-body > p.lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-weight: 300;
+  }
+
+  .article-body h2 {
+    font-weight: 300;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 56px 0 16px;
+    scroll-margin-top: 100px;
+    position: relative;
+    padding-left: 18px;
+  }
+  .article-body h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 6px;
+    height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+  }
+
+  .article-body h3 {
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 36px 0 12px;
+    scroll-margin-top: 100px;
+  }
+
+  .article-body a {
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--orange), var(--orange));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 1px;
+    transition: background-size var(--t-fast), color var(--t-fast);
+  }
+  .article-body a:hover {
+    color: var(--orange-deep);
+    background-size: 100% 2px;
+  }
+
+  .article-body strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .article-body ul, .article-body ol {
+    margin: 0 0 1.4em;
+    padding-left: 22px;
+  }
+  .article-body li { margin-bottom: 8px; }
+  .article-body li::marker { color: var(--ink-faint); }
+
+  /* Numbered steps treatment */
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 32px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--orange-deep);
+    padding-top: 4px;
+  }
+  .steps strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .steps p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* Callout box */
+  .callout {
+    margin: 36px 0;
+    padding: 20px 24px;
+    background: var(--orange-wash);
+    border-left: 2px solid var(--orange);
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .callout-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 2px;
+    font-style: italic;
+    font-family: var(--font);
+  }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .callout strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--orange-deep);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    margin: 48px 0;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    font-style: italic;
+    text-align: left;
+    position: relative;
+    padding-left: 24px;
+  }
+  .pullquote::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 28px;
+    bottom: 28px;
+    width: 2px;
+    background: var(--orange);
+  }
+
+  /* ---------- WAS THIS HELPFUL ---------- */
+  .helpful {
+    margin: 64px 0 0;
+    padding: 36px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  .helpful p {
+    margin: 0;
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .helpful-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .helpful-btn {
+    appearance: none;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 9px 18px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--t-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .helpful-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .helpful-btn.is-selected {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+  .helpful-btn.is-selected.no {
+    background: #b91c1c;
+    border-color: #b91c1c;
+  }
+
+  /* ---------- NEXT/PREV ---------- */
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .pager a {
+    display: block;
+    padding: 22px 24px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--t-fast), transform var(--t-mid), box-shadow var(--t-mid);
+  }
+  .pager a:hover {
+    border-color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px -16px rgba(17,24,39,0.12);
+  }
+  .pager-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pager-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.3;
+  }
+  .pager .next { text-align: right; }
+  .pager .next .pager-label { justify-content: flex-end; }
+
+  /* ---------- STILL STUCK ---------- */
+  .stuck {
+    margin-top: 48px;
+    padding: 28px 32px;
+    background: var(--navy);
+    border-radius: 10px;
+    color: rgba(255,255,255,0.85);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
+  }
+  .stuck h4 {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .stuck p {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 300;
+    color: #fff;
+    line-height: 1.4;
+  }
+  .stuck a.email {
+    background: var(--orange);
+    color: var(--navy);
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background var(--t-fast);
+    white-space: nowrap;
+  }
+  .stuck a.email:hover { background: var(--orange-soft); }
+
+  /* ---------- RIGHT RAIL — TOC ---------- */
+  .right-rail {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    font-size: 13px;
+  }
+  .toc {
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
+  }
+  .toc-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    margin: 0 0 16px;
+  }
+  .toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc a {
+    display: block;
+    padding: 6px 0;
+    color: var(--ink-soft);
+    text-decoration: none;
+    line-height: 1.4;
+    font-size: 13.5px;
+    font-weight: 400;
+    border-left: 2px solid transparent;
+    margin-left: -22px;
+    padding-left: 20px;
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+  .toc a:hover { color: var(--orange-deep); }
+  .toc a.is-active {
+    color: var(--orange-deep);
+    border-color: var(--orange);
+    font-weight: 500;
+  }
+  .toc a.l3 {
+    padding-left: 36px;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1100px) {
+    .article-shell { grid-template-columns: 200px minmax(0,1fr); gap: 40px; }
+    .right-rail { display: none; }
+  }
+  @media (max-width: 760px) {
+    .article-shell { grid-template-columns: 1fr; padding: 32px 20px 64px; gap: 24px; }
+    .left-rail { position: static; }
+    .helpful { grid-template-columns: 1fr; }
+    .stuck { grid-template-columns: 1fr; text-align: left; }
+    .pager { grid-template-columns: 1fr; }
+    .pager .next { text-align: left; }
+    .pager .next .pager-label { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="home.html"><img src="../assets/logo.png" alt="ePoster" /></a>
+  </div>
+</header>
+<div class="reading-progress" aria-hidden="true"><i id="rp"></i></div>
+
+<div class="article-shell">
+
+  <!-- LEFT RAIL: section context -->
+  <aside class="left-rail">
+    <a class="back-link" href="home.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      <span>All chapters</span>
+    </a>
+    <div class="rail-section">
+      <p class="rail-label">Setup · Chapter 01</p>
+      <ul>
+        <li><a class="rail-link is-active" href="#">Welcome to ePoster</a></li>
+        <li><a class="rail-link" href="#">Creating your account</a></li>
+        <li><a class="rail-link" href="#">Inviting your team</a></li>
+        <li><a class="rail-link" href="#">Subscriptions &amp; billing</a></li>
+        <li><a class="rail-link" href="#">Choosing your states</a></li>
+        <li><a class="rail-link" href="#">Setting up notifications</a></li>
+        <li><a class="rail-link" href="#">Account security</a></li>
+        <li><a class="rail-link" href="#">Mobile access</a></li>
+        <li><a class="rail-link" href="#">Common first-week questions</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CENTER: article -->
+  <article class="article">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="home.html">Help center</a>
+      <span class="sep">/</span>
+      <a href="#">Getting Started</a>
+      <span class="sep">/</span>
+      <span>Welcome to ePoster</span>
+    </nav>
+
+    <p class="article-eyebrow"><b>Setup</b> · Article 01 of 09</p>
+    <h1 class="article-title">Welcome to <em>ePoster</em> — what to expect</h1>
+
+    <dl-row class="article-meta">
+      <div class="article-meta">
+        <dl><dt>Read</dt><dd><b>5 min</b></dd></dl>
+        <dl><dt>Updated</dt><dd>May 4, 2026</dd></dl>
+        <dl><dt>By</dt><dd>The ePoster team</dd></dl>
+      </div>
+    </dl-row>
+
+    <div class="article-body">
+      <p class="lede">
+        Keeping a workplace compliant with state and federal labor-law posters used to mean a binder, a quarterly panic, and a few hundred dollars in printing every time something changed. ePoster's job is to make that chore a non-event — the right posters, in the right languages, always up to date, displayed wherever your team actually works.
+      </p>
+
+      <p>
+        This article is the orientation for everyone using ePoster for the first time. By the end of it, you'll know what the platform does, who it's for, what to set up first, and where to look when something doesn't go to plan.
+      </p>
+
+      <h2 id="what">What ePoster does</h2>
+      <p>
+        ePoster is a compliance platform for businesses that need to display labor-law posters in their workplace. We track every required federal, state, and city poster in the United States, push updates to your account whenever a regulation changes, and give you several different ways to actually display them — printed, on a TV in the breakroom, embedded on your intranet, or sent to employees by email for a digital sign-off.
+      </p>
+      <p>
+        You manage everything from a single dashboard. Add a state, remove a state, branch by location, customize with your logo, and let us handle the rest.
+      </p>
+
+      <div class="callout">
+        <span class="callout-icon">i</span>
+        <div>
+          <strong>Heads up</strong>
+          <p>If you've taken over an account from a previous admin, you may already have posters configured. <a href="#">Skip ahead to the dashboard tour</a> to get oriented.</p>
+        </div>
+      </div>
+
+      <h2 id="who">Who it's for</h2>
+      <p>
+        ePoster is built for the person responsible for compliance — usually an HR lead, an office manager, or a founder wearing five hats. You don't need to be a lawyer or have a compliance background. The platform makes the right choices on your behalf, and our team is one email away if you get stuck.
+      </p>
+
+      <h2 id="setup">Setup at a glance</h2>
+      <p>
+        Most teams are fully set up within ten minutes. The order matters less than getting the basics in: states, displays, sign-offs.
+      </p>
+
+      <ol class="steps">
+        <li>
+          <strong>Pick the states you operate in</strong>
+          <p>Federal posters are added automatically. Add a state and we'll bundle the right state and city posters into your set.</p>
+        </li>
+        <li>
+          <strong>Choose how you'll display them</strong>
+          <p>Print, breakroom screen, intranet widget, email sign-off — pick one or all four. You can change this any time.</p>
+        </li>
+        <li>
+          <strong>Invite your team</strong>
+          <p>Add anyone who needs to acknowledge or manage posters. Roles default to "view only" so you decide who can edit.</p>
+        </li>
+        <li>
+          <strong>Turn on update notifications</strong>
+          <p>We'll email you whenever a poster you display changes. Most months, the answer is "nothing to do."</p>
+        </li>
+      </ol>
+
+      <h2 id="philosophy">Our philosophy</h2>
+      <p>
+        We try to make the platform invisible. The best compliance tool is one you forget about, because it just works. That goal shapes every product decision we make — fewer settings, fewer notifications, more trust that the right thing is happening in the background.
+      </p>
+
+      <p class="pullquote">
+        The best compliance tool is the one you forget about, because it just works.
+      </p>
+
+      <h2 id="next">Where to next</h2>
+      <p>
+        If you're brand new, we'd suggest reading <a href="#">Creating your account</a> and then <a href="#">Choosing your states</a> in that order. Everything else can wait until you have a question.
+      </p>
+      <p>
+        If you'd rather poke around the dashboard first, that works too — every setup screen has the same handbook link in the top corner.
+      </p>
+    </div>
+
+    <!-- WAS THIS HELPFUL -->
+    <div class="helpful">
+      <p>Was this article helpful?</p>
+      <div class="helpful-actions">
+        <button class="helpful-btn yes" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9M2 13v6a2 2 0 002 2h12.5a2 2 0 002-1.7l1.4-8a2 2 0 00-2-2.3H14V5a3 3 0 00-3-3l-4 9z"/></svg>
+          Yes
+        </button>
+        <button class="helpful-btn no" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13V4M22 11V5a2 2 0 00-2-2H7.5a2 2 0 00-2 1.7l-1.4 8a2 2 0 002 2.3H10v3a3 3 0 003 3l4-9z"/></svg>
+          No
+        </button>
+      </div>
+    </div>
+
+    <!-- PAGER -->
+    <nav class="pager" aria-label="Article pagination">
+      <a class="prev" href="#">
+        <p class="pager-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          Previous
+        </p>
+        <p class="pager-title">Help center home</p>
+      </a>
+      <a class="next" href="#">
+        <p class="pager-label">
+          Next
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </p>
+        <p class="pager-title">Creating your account &amp; first login</p>
+      </a>
+    </nav>
+
+    <!-- STILL STUCK -->
+    <div class="stuck">
+      <div>
+        <h4>Still stuck?</h4>
+        <p>If this article didn't solve it, our team is on it.</p>
+      </div>
+      <a class="email" href="mailto:support@eposter.app">Email support</a>
+    </div>
+  </article>
+
+  <!-- RIGHT RAIL: TOC -->
+  <aside class="right-rail">
+    <nav class="toc" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <ul id="toc-list">
+        <li><a href="#what">What ePoster does</a></li>
+        <li><a href="#who">Who it's for</a></li>
+        <li><a href="#setup">Setup at a glance</a></li>
+        <li><a href="#philosophy">Our philosophy</a></li>
+        <li><a href="#next">Where to next</a></li>
+      </ul>
+    </nav>
+  </aside>
+</div>
+
+<script>
+  // Reading progress bar
+  var rp = document.getElementById('rp');
+  function updateProgress() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    rp.style.width = Math.min(pct, 100) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // TOC active state via IntersectionObserver
+  var headings = document.querySelectorAll('.article-body h2[id]');
+  var tocLinks = document.querySelectorAll('.toc a');
+  var byId = {};
+  tocLinks.forEach(function (a) {
+    byId[a.getAttribute('href').slice(1)] = a;
+  });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var id = entry.target.id;
+      var link = byId[id];
+      if (!link) return;
+      if (entry.isIntersecting) {
+        tocLinks.forEach(function (l) { l.classList.remove('is-active'); });
+        link.classList.add('is-active');
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px', threshold: 0 });
+  headings.forEach(function (h) { observer.observe(h); });
+
+  // Helpful buttons
+  document.querySelectorAll('.helpful-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.helpful-btn').forEach(function (b) { b.classList.remove('is-selected'); });
+      btn.classList.add('is-selected');
+    });
+  });
+</script>
+
+</body>
+</html>

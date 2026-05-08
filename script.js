@@ -51,6 +51,132 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ============================================================
+  // ARTICLE PAGE
+  // ============================================================
+  var articlePage = document.querySelector('.article-page');
+  if (articlePage) {
+    var KICKERS = {
+      'Getting Started': 'Setup',
+      'Managing Your Posters': 'Posters',
+      'Breakroom Screens': 'Display',
+      'Email Signing': 'Sign-off',
+      'Widget': 'Embed'
+    };
+
+    // Section kicker (left rail + article eyebrow)
+    var railLabel = articlePage.querySelector('.rail-section');
+    if (railLabel) {
+      var name = railLabel.getAttribute('data-section-name') || '';
+      var kicker = KICKERS[name];
+      var kickerEl = railLabel.querySelector('.rail-kicker');
+      if (kickerEl && kicker) kickerEl.textContent = kicker + ' · ';
+    }
+    var eyebrow = articlePage.querySelector('.article-eyebrow');
+    var eyebrowKicker = articlePage.querySelector('.article-eyebrow-kicker');
+    var eyebrowPos = articlePage.querySelector('.article-eyebrow-position');
+    if (eyebrow && eyebrowKicker) {
+      var sn = eyebrow.getAttribute('data-section-name') || '';
+      var k = KICKERS[sn] || sn;
+      eyebrowKicker.textContent = k;
+    }
+
+    // Position counter — find current article in rail-link list
+    var railLinks = articlePage.querySelectorAll('.rail-link');
+    var activeIndex = -1;
+    railLinks.forEach(function (a, i) {
+      if (a.classList.contains('is-active')) activeIndex = i;
+    });
+    if (activeIndex >= 0 && eyebrowPos) {
+      var pad = function (n) { return String(n).padStart(2, '0'); };
+      eyebrowPos.textContent = ' · Article ' + pad(activeIndex + 1) + ' of ' + pad(railLinks.length);
+    }
+
+    // Read time — count words in body
+    var body = articlePage.querySelector('.article-body');
+    var readEl = articlePage.querySelector('.article-meta-readtime b');
+    if (body && readEl) {
+      var words = (body.innerText || '').trim().split(/\s+/).length;
+      var minutes = Math.max(1, Math.round(words / 220));
+      readEl.textContent = minutes + ' min';
+    }
+
+    // Lede / drop cap on first paragraph if long enough
+    if (body) {
+      var firstP = body.querySelector(':scope > p');
+      if (firstP && firstP.textContent.trim().length > 140) {
+        firstP.classList.add('lede');
+      }
+    }
+
+    // Auto-build TOC from h2s
+    var toc = articlePage.querySelector('.toc');
+    var tocList = articlePage.querySelector('.toc-list');
+    if (body && toc && tocList) {
+      var h2s = body.querySelectorAll('h2');
+      var tocLinks = [];
+      h2s.forEach(function (h, i) {
+        var id = h.id || ('section-' + i);
+        h.id = id;
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        tocList.appendChild(li);
+        tocLinks.push(a);
+      });
+      if (tocLinks.length >= 2) {
+        toc.removeAttribute('hidden');
+        var byId = {};
+        tocLinks.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            var id = entry.target.id;
+            var link = byId[id];
+            if (!link || !entry.isIntersecting) return;
+            tocLinks.forEach(function (l) { l.classList.remove('is-active'); });
+            link.classList.add('is-active');
+          });
+        }, { rootMargin: '-100px 0px -65% 0px', threshold: 0 });
+        h2s.forEach(function (h) { observer.observe(h); });
+      }
+    }
+
+    // Reading progress bar
+    var rpBar = articlePage.querySelector('.rp-bar');
+    if (rpBar) {
+      var update = function () {
+        var doc = document.documentElement;
+        var max = doc.scrollHeight - doc.clientHeight;
+        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+        rpBar.style.width = Math.min(pct, 100) + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    // Prev/Next pager from rail-link list
+    var pager = articlePage.querySelector('[data-pager]');
+    if (pager && activeIndex >= 0) {
+      var prev = railLinks[activeIndex - 1];
+      var next = railLinks[activeIndex + 1];
+      var prevA = pager.querySelector('.prev');
+      var nextA = pager.querySelector('.next');
+      if (prev && prevA) {
+        prevA.href = prev.href;
+        prevA.querySelector('.pager-title').textContent = prev.textContent.trim();
+        prevA.removeAttribute('hidden');
+      }
+      if (next && nextA) {
+        nextA.href = next.href;
+        nextA.querySelector('.pager-title').textContent = next.textContent.trim();
+        nextA.removeAttribute('hidden');
+      }
+      if (prev || next) pager.removeAttribute('hidden');
+    }
+  }
+
+  // ============================================================
   // HOME PAGE — chapter accordion
   // ============================================================
 
