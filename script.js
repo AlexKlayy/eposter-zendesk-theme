@@ -155,24 +155,39 @@ document.addEventListener('DOMContentLoaded', function () {
       update();
     }
 
-    // Prev/Next pager from rail-link list
+    // Prev/Next pager from rail-link list — falls back to section/home at edges
     var pager = articlePage.querySelector('[data-pager]');
-    if (pager && activeIndex >= 0) {
-      var prev = railLinks[activeIndex - 1];
-      var next = railLinks[activeIndex + 1];
+    if (pager) {
+      var prev = activeIndex > 0 ? railLinks[activeIndex - 1] : null;
+      var next = activeIndex >= 0 && activeIndex < railLinks.length - 1 ? railLinks[activeIndex + 1] : null;
       var prevA = pager.querySelector('.prev');
       var nextA = pager.querySelector('.next');
-      if (prev && prevA) {
-        prevA.href = prev.href;
-        prevA.querySelector('.pager-title').textContent = prev.textContent.trim();
+      var backLink = articlePage.querySelector('.back-link');
+      var sectionHref = backLink ? backLink.getAttribute('href') : '/hc';
+      var sectionName = articlePage.querySelector('.rail-section');
+      sectionName = sectionName ? sectionName.getAttribute('data-section-name') : '';
+
+      if (prevA) {
+        if (prev) {
+          prevA.href = prev.href;
+          prevA.querySelector('.pager-title').textContent = prev.textContent.trim();
+        } else {
+          prevA.href = sectionHref;
+          prevA.querySelector('.pager-title').textContent = sectionName ? 'All ' + sectionName : 'Back to section';
+        }
         prevA.removeAttribute('hidden');
       }
-      if (next && nextA) {
-        nextA.href = next.href;
-        nextA.querySelector('.pager-title').textContent = next.textContent.trim();
+      if (nextA) {
+        if (next) {
+          nextA.href = next.href;
+          nextA.querySelector('.pager-title').textContent = next.textContent.trim();
+        } else {
+          nextA.href = '/hc';
+          nextA.querySelector('.pager-title').textContent = 'Browse all topics';
+        }
         nextA.removeAttribute('hidden');
       }
-      if (prev || next) pager.removeAttribute('hidden');
+      pager.removeAttribute('hidden');
     }
   }
 
