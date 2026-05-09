@@ -4,6 +4,17 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  // Editorial kicker labels for known sections — shared across pages.
+  var KICKERS = {
+    'Getting Started': 'Setup',
+    'Managing Your Posters': 'Posters',
+    'Breakroom Screens': 'Display',
+    'Email Signing': 'Sign-off',
+    'Widget': 'Embed'
+  };
+
+  var pad2 = function (n) { return String(n).padStart(2, '0'); };
+
   // --- Mobile nav toggle ---
   var menuToggle = document.querySelector('.menu-toggle');
   var headerNav = document.querySelector('.header-nav');
@@ -55,14 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // ============================================================
   var articlePage = document.querySelector('.article-page');
   if (articlePage) {
-    var KICKERS = {
-      'Getting Started': 'Setup',
-      'Managing Your Posters': 'Posters',
-      'Breakroom Screens': 'Display',
-      'Email Signing': 'Sign-off',
-      'Widget': 'Embed'
-    };
-
     // Section kicker (left rail + article eyebrow)
     var railLabel = articlePage.querySelector('.rail-section');
     if (railLabel) {
@@ -87,8 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (a.classList.contains('is-active')) activeIndex = i;
     });
     if (activeIndex >= 0 && eyebrowPos) {
-      var pad = function (n) { return String(n).padStart(2, '0'); };
-      eyebrowPos.textContent = ' · Article ' + pad(activeIndex + 1) + ' of ' + pad(railLinks.length);
+      eyebrowPos.textContent = ' · Article ' + pad2(activeIndex + 1) + ' of ' + pad2(railLinks.length);
     }
 
     // Read time — count words in body
@@ -192,15 +194,57 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ============================================================
+  // SECTION PAGE — chapter landing
+  // ============================================================
+  var sectionPage = document.querySelector('.section-page');
+  if (sectionPage) {
+    var sectionHero = sectionPage.querySelector('.section-hero');
+    var sectionName = sectionHero ? sectionHero.getAttribute('data-section-name') || '' : '';
+    var sectionKickerEl = sectionPage.querySelector('.section-eyebrow-kicker');
+    if (sectionKickerEl) {
+      sectionKickerEl.textContent = KICKERS[sectionName] || sectionName || 'Chapter';
+    }
+
+    var sectionArticleLinks = sectionPage.querySelectorAll('.section-article-link');
+    var sectionTotal = sectionArticleLinks.length;
+    var sectionTotalStr = pad2(sectionTotal);
+    sectionArticleLinks.forEach(function (link, i) {
+      var num = link.querySelector('.section-article-num');
+      if (num) num.textContent = pad2(i + 1) + ' / ' + sectionTotalStr;
+    });
+
+    var sectionCountEl = sectionPage.querySelector('.section-eyebrow-count');
+    if (sectionCountEl && sectionTotal > 0) {
+      sectionCountEl.textContent = sectionTotal + (sectionTotal === 1 ? ' article' : ' articles');
+    }
+  }
+
+  // ============================================================
+  // CATEGORY PAGE — chapter directory
+  // ============================================================
+  var categoryPage = document.querySelector('.category-page');
+  if (categoryPage) {
+    var catSections = categoryPage.querySelectorAll('.category-section');
+    var catTotalStr = pad2(catSections.length);
+    catSections.forEach(function (sec, i) {
+      var numEl = sec.querySelector('.category-section-num');
+      if (numEl) numEl.textContent = pad2(i + 1) + ' / ' + catTotalStr;
+      var name = sec.getAttribute('data-section-name') || '';
+      var kicker = KICKERS[name];
+      var kickerEl = sec.querySelector('.category-section-kicker');
+      if (kickerEl && kicker) kickerEl.textContent = kicker;
+    });
+  }
+
+  // ============================================================
   // SEARCH RESULTS PAGE
   // ============================================================
   var searchPage = document.querySelector('.search-page');
   if (searchPage) {
     var rows = searchPage.querySelectorAll('.search-row');
-    var pad = function (n) { return String(n).padStart(2, '0'); };
     rows.forEach(function (row, i) {
       var num = row.querySelector('.search-row-num');
-      if (num) num.textContent = pad(i + 1);
+      if (num) num.textContent = pad2(i + 1);
     });
     var summary = searchPage.querySelector('[data-search-summary]');
     if (summary && rows.length) {
@@ -225,22 +269,13 @@ document.addEventListener('DOMContentLoaded', function () {
   var chapters = document.querySelectorAll('.chapter');
   if (!chapters.length) return;
 
-  // Editorial kicker labels for known sections (graceful fallback for new sections)
-  var KICKERS = {
-    'Getting Started': 'Setup',
-    'Managing Your Posters': 'Posters',
-    'Breakroom Screens': 'Display',
-    'Email Signing': 'Sign-off',
-    'Widget': 'Embed'
-  };
-
   var totalChapters = chapters.length;
-  var totalStr = String(totalChapters).padStart(2, '0');
+  var totalStr = pad2(totalChapters);
 
   chapters.forEach(function (chapter, i) {
     // Numbering: 01 / 05
     var numEl = chapter.querySelector('.chapter-num');
-    if (numEl) numEl.textContent = String(i + 1).padStart(2, '0') + ' / ' + totalStr;
+    if (numEl) numEl.textContent = pad2(i + 1) + ' / ' + totalStr;
 
     // Kicker label
     var name = chapter.getAttribute('data-section-name') || '';

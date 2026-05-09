@@ -1,33 +1,53 @@
-<main role="main">
-  <div class="container">
-    <nav aria-label="Breadcrumb">
+<main role="main" class="category-page">
+  <div class="section-shell">
+
+    <nav class="section-breadcrumb" aria-label="Breadcrumb">
       <ol class="breadcrumbs">
         <li><a href="{{help_center.url}}">Home</a></li>
         <li>{{category.name}}</li>
       </ol>
     </nav>
 
-    <h1>{{category.name}}</h1>
-    {{#if category.description}}
-      <p class="text-muted">{{category.description}}</p>
-    {{/if}}
+    <a class="section-back" href="{{help_center.url}}">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      <span>Back to handbook</span>
+    </a>
+
+    <header class="section-hero">
+      <p class="section-eyebrow">
+        <b>Handbook</b>
+      </p>
+      <h1 class="section-title-display">
+        <em>{{category.name}}</em><span class="stop">.</span>
+      </h1>
+      {{#if category.description}}
+        <p class="section-sub">{{category.description}}</p>
+      {{/if}}
+    </header>
 
     {{#if sections}}
-      <ul class="section-list blocks-list">
+      <ul class="category-section-list">
         {{#each sections}}
-          <li class="blocks-item section-item">
-            <a href="{{url}}">
-              <h2 class="blocks-item-title section-title">{{name}}</h2>
-              {{#if description}}
-                <p class="blocks-item-description section-description">{{description}}</p>
-              {{/if}}
-              <span class="blocks-item-count section-count">{{article_count}} articles</span>
+          <li class="category-section" data-section-name="{{name}}">
+            <a class="category-section-link" href="{{url}}">
+              <span class="category-section-num"></span>
+              <div class="category-section-body">
+                <p class="category-section-kicker"></p>
+                <h2 class="category-section-title">{{name}}</h2>
+                {{#if description}}
+                  <p class="category-section-desc">{{description}}</p>
+                {{/if}}
+                <span class="category-section-count">{{article_count}} articles</span>
+              </div>
+              <span class="category-section-arrow" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
             </a>
           </li>
         {{/each}}
       </ul>
     {{else}}
-      <p class="text-muted">No sections in this category yet.</p>
+      <p class="section-empty">No chapters in this category yet.</p>
     {{/if}}
   </div>
 </main>
