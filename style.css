@@ -38,6 +38,17 @@
   --radius-lg: 12px;
   --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   --transition: 0.2s ease;
+
+  /* Editorial tokens (hoisted from .home-page so section/category/article pages share them) */
+  --rule-strong: rgba(17, 24, 39, 0.18);
+  --rule:        rgba(17, 24, 39, 0.10);
+  --rule-soft:   rgba(17, 24, 39, 0.06);
+  --ink-faint:   #9CA3AF;
+  --bg-tint:     #F4F2EC;
+  --orange-deep: #D6840A;
+  --orange-wash: rgba(241, 157, 17, 0.08);
+  --t-mid:       0.35s cubic-bezier(.2,.7,.2,1);
+  --t-slow:      0.55s cubic-bezier(.2,.7,.2,1);
 }
 
 /* --- Reset & Base --- */
@@ -206,15 +217,6 @@ p {
    HOME PAGE — editorial hero + search
    ============================================================ */
 .home-page {
-  --rule-strong: rgba(17, 24, 39, 0.18);
-  --rule:        rgba(17, 24, 39, 0.10);
-  --rule-soft:   rgba(17, 24, 39, 0.06);
-  --ink-faint:   #9CA3AF;
-  --bg-tint:     #F4F2EC;
-  --orange-deep: #D6840A;
-  --orange-wash: rgba(241, 157, 17, 0.08);
-  --t-mid:       0.35s cubic-bezier(.2,.7,.2,1);
-  --t-slow:      0.55s cubic-bezier(.2,.7,.2,1);
   background: #FAFAF7;
   background-image:
     radial-gradient(1200px 700px at 90% -10%, rgba(241,157,17,0.05), transparent 55%),
